@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lain Security - Verificador de Senhas</title>
+    <link rel="icon" type="image/x-icon" href="src/images/icon.ico">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono:wght@400;700&family=JetBrains+Mono:wght@400;700&family=Orbitron:wght@400;700;900&family=Audiowide&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Segurança: CSP e headers -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline';">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+    <meta http-equiv="Permissions-Policy" content="clipboard-write=(self)">
+</head>
+<body>
+    <div class="background-container">
+        <div class="background-image"></div>
+        <div class="overlay"></div>
+        <div class="glitch-overlay"></div>
+    </div>
+
+    <!-- Canvas para efeito de sparks -->
+    <canvas id="sparkCanvas" class="spark-canvas"></canvas>
+
+    <div class="container">
+        <header class="header">
+            <h1 class="title glitch" data-text="LAIN SECURITY" style="font-family: 'Audiowide', 'Share Tech Mono', monospace;">LAIN SECURITY</h1>
+            <p class="subtitle">"Present day, present time..."</p>
+        </header>
+
+        <main class="main-content">
+            <div class="password-section">
+                <div class="input-group">
+                    <input 
+                        type="password" 
+                        id="passwordInput" 
+                        class="password-input" 
+                        placeholder="Digite sua senha..."
+                        autocomplete="off"
+                    >
+                    <button id="togglePassword" class="toggle-btn" title="Mostrar/Ocultar senha">
+                        <span class="eye-icon">👁</span>
+                    </button>
+                </div>
+
+                <div class="action-buttons">
+                    <button id="analyzeBtn" class="action-btn analyze-btn">
+                        <span class="btn-text">ANALISAR SENHA</span>
+                        <div class="btn-glow"></div>
+                    </button>
+
+                    <button id="breachBtn" class="action-btn breach-btn">
+                        <span class="btn-text">VERIFICAR VAZAMENTO</span>
+                        <div class="btn-glow"></div>
+                    </button>
+
+                    <button id="generateBtn" class="action-btn generate-btn">
+                        <span class="btn-text">GERAR SENHA FORTE</span>
+                        <div class="btn-glow"></div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Seção de Análise -->
+            <div id="analysisSection" class="result-section hidden">
+                <div class="strength-meter">
+                    <div class="meter-label">FORÇA DA SENHA</div>
+                    <div class="meter-container">
+                        <div class="meter-bar">
+                            <div id="strengthBar" class="strength-bar"></div>
+                        </div>
+                        <div id="strengthText" class="strength-text">-</div>
+                    </div>
+                </div>
+
+                <div class="analysis-details">
+                    <div id="analysisText" class="analysis-text"></div>
+                    <div id="suggestions" class="suggestions"></div>
+                </div>
+            </div>
+
+            <!-- Seção de Verificação de Vazamento -->
+            <div id="breachSection" class="result-section hidden">
+                <div id="breachCheck" class="breach-check">
+                    <div class="breach-icon">🔍</div>
+                    <div class="breach-text">Verificando vazamentos...</div>
+                </div>
+
+                <div id="breachResult" class="breach-result hidden">
+                    <div class="breach-status"></div>
+                    <div class="breach-count"></div>
+                </div>
+            </div>
+
+            <!-- Seção de Senha Gerada -->
+            <div id="generatedSection" class="result-section hidden">
+                <div class="generated-password">
+                    <div class="generated-text">Sua nova senha:</div>
+                    <div id="newPassword" class="new-password"></div>
+                    <button id="copyBtn" class="copy-btn">
+                        <span class="copy-text">Copiar Senha</span>
+                        <div class="copy-glow"></div>
+                    </button>
+                </div>
+            </div>
+
+            <div class="keepass-section">
+                <div class="keepass-card">
+                    <div class="keepass-icon">
+                        <img src="src/images/keepass-lain.jpg" alt="KeePassXC" class="keepass-img">
+                    </div>
+                    <div class="keepass-content">
+                        <h3 class="keepass-title">Recomendamos o KeePassXC</h3>
+                        <p class="keepass-description">
+                            Para armazenar suas senhas com segurança máxima.
+                        </p>
+                        <a href="https://keepassxc.org/" target="_blank" class="keepass-link">
+                            <span class="link-text">VISITAR KEEPASSXC</span>
+                            <div class="link-glow"></div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <div class="developer-info">
+                <a href="https://www.linkedin.com/in/marciojuniorr/" target="_blank" class="developer-link">
+                    <span class="developer-text">Desenvolvido por Márcio Junior</span>
+                    <div class="developer-glow"></div>
+                </a>
+            </div>
+            <div class="footer-text">
+                "And you don't seem to understand..."
+            </div>
+        </footer>
+    </div>
+
+    <!-- Terminal Fake Fixo -->
+    <div class="lain-terminal" id="lainTerminal">
+        <div class="terminal-header">wired://lain@security <span class="terminal-close" id="terminalClose">[x]</span></div>
+        <div class="terminal-body" id="terminalBody">
+            <div class="terminal-line">Present day. Present time. <span class="terminal-cursor">█</span></div>
+        </div>
+        <input class="terminal-input" id="terminalInput" autocomplete="off" spellcheck="false" placeholder="Digite um comando..." />
+    </div>
+
+    <div id="floatingTexts" class="floating-texts">
+        <div class="floating-text">"I am Lain."</div>
+        <div class="floating-text">"No matter where you go, everyone's connected."</div>
+        <div class="floating-text">"Present day. Present time. Ha-ha-ha-ha…"</div>
+        <div class="floating-text">"And you don't seem to understand..."</div>
+        <div class="floating-text">"A shame you seemed an honest man..."</div>
+        <div class="floating-text">"And all the fears you hold so dear..."</div>
+        <div class="floating-text">"Will turn to whisper in your ear..."</div>
+        <div class="floating-text">"The network is vast and infinite."</div>
+    </div>
+
+    <div class="scanlines"></div>
+    <script src="script.js"></script>
+    <!-- Avatar da Lain animado no canto inferior esquerdo -->
+    <div class="lain-avatar">
+        <img src="src/images/lain.jpg" alt="Lain Avatar" />
+    </div>
+</body>
+</html> 
