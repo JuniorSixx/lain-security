@@ -36,7 +36,7 @@ Uma ferramenta de segurança visualmente imersiva inspirada na estética cyberpu
 
 ## 🚀 Como Usar
 
-1. **Abra o arquivo `index.html`** no seu navegador
+1. **Abra o arquivo `index.html`** no seu navegador , ou acesse https://lain-security.vercel.app/
 2. **Digite uma senha** no campo de entrada
 3. **Clique em "ANALISAR SENHA"** ou pressione Enter
 4. **Veja os resultados** em tempo real
@@ -154,6 +154,5 @@ Este projeto é de código aberto e está disponível sob a licença MIT.
 
 ---
 
-*"And you don't seem to understand..."*
 
 **Lain Security** - Protegendo suas senhas com estilo cyberpunk desde 2025. 
